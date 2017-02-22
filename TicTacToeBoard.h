@@ -15,8 +15,7 @@ enum Piece
  * Class for representing a 3x3 Tic-Tac-Toe game board, using the Piece enum
  * to represent the spaces on the board.
 **/
-class TicTacToeBoard
-{
+class TicTacToeBoard {
   private:
   	Piece board[BOARDSIZE][BOARDSIZE];
   	Piece turn;

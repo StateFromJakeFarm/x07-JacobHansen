@@ -8,7 +8,7 @@
 void TicTacToeBoard::toggleTurn()
 {
     if(turn == X)
-        turn = O
+        turn = O;
     else
         turn = X;
 }
@@ -16,7 +16,7 @@ void TicTacToeBoard::toggleTurn()
 //Constructor sets an empty board and specifies it is X's turn first
 TicTacToeBoard::TicTacToeBoard()
 {
-    turn = 'X';
+    turn = X;
     clearBoard();
 }
 
@@ -90,7 +90,7 @@ Piece TicTacToeBoard::getWinner()
             Piece diag = getPiece(r-1, c-1);
 
             if(cur != Blank) {
-                ++numFillled;
+                ++numFilled;
 
                 if(back == cur) {
                     if(cur == X)
@@ -117,16 +117,9 @@ Piece TicTacToeBoard::getWinner()
     if(xH == BOARDSIZE || xV == BOARDSIZE || xD == BOARDSIZE)
         return X;
     else if(oH == BOARDSIZE || oV == BOARDSIZE || oD == BOARDSIZE)
-        return O
+        return O;
     else if(numFilled == BOARDSIZE * BOARDSIZE)
         return Blank;
     else
         return Invalid;
 }
-
-
-
-
-
-
-
