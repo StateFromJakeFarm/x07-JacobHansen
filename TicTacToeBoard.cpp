@@ -7,19 +7,27 @@
 //Switches turn member variable to represent whether it's X's or O's turn
 void TicTacToeBoard::toggleTurn()
 {
-
+    if(turn == X)
+        turn = O
+    else
+        turn = X;
 }
 
 //Constructor sets an empty board and specifies it is X's turn first
 TicTacToeBoard::TicTacToeBoard()
 {
-
+    turn = 'X';
+    clearBoard();
 }
 
 //Resets each board location to the Blank Piece value
 void TicTacToeBoard::clearBoard()
 {
-
+   for(int r=0; r<BOARDSIZE; r++) {
+        for(int c=0; c<BOARDSIZE; c++) {
+            board[r][c] = Blank;
+        }
+    } 
 }
 
 /**
@@ -31,7 +39,19 @@ void TicTacToeBoard::clearBoard()
 **/ 
 Piece TicTacToeBoard::placePiece(int row, int column)
 {
-  return Invalid;
+    if(row >= 0 && column >= 0 && row < BOARDSIZE && column < BOARDSIZE) {
+        if(board[row][column] == Blank) {
+            board[row][column] = turn;
+
+            Piece win = getWinner();
+
+            return turn;
+        } else {
+            return board[row][column];
+        }
+    }
+
+    return Invalid;
 }
 
 /**
@@ -40,7 +60,11 @@ Piece TicTacToeBoard::placePiece(int row, int column)
 **/
 Piece TicTacToeBoard::getPiece(int row, int column)
 {
-  return Invalid;
+    if(row >= 0 && column >= 0 && row < BOARDSIZE && column < BOARDSIZE) {
+        return board[row][column];
+    }
+
+    return Invalid;
 }
 
 /**
@@ -49,5 +73,60 @@ Piece TicTacToeBoard::getPiece(int row, int column)
 **/
 Piece TicTacToeBoard::getWinner()
 {
-  return Invalid;
+    int xH = 0;
+    int oH = 0;
+    int xV = 0;
+    int oV = 0;
+    int xD = 0;
+    int oD = 0;
+
+    int numFilled = 0;
+
+    for(int r=0; r<BOARDSIZE; r++) {
+        for(int c=0; c<BOARDSIZE; c++) {
+            Piece cur  = getPiece(r, c);
+            Piece up   = getPiece(r-1, c);
+            Piece back = getPiece(r, c-1);
+            Piece diag = getPiece(r-1, c-1);
+
+            if(cur != Blank) {
+                ++numFillled;
+
+                if(back == cur) {
+                    if(cur == X)
+                        ++xH;
+                    else
+                        ++oH;
+                }
+                if(up == cur) {
+                    if(cur == X)
+                        ++xV;
+                    else
+                        ++oV;
+                }
+                if(diag == cur) {
+                    if(cur == X)
+                        ++xD;
+                    else
+                        ++oD;
+                }
+            }
+        }
+    }
+
+    if(xH == BOARDSIZE || xV == BOARDSIZE || xD == BOARDSIZE)
+        return X;
+    else if(oH == BOARDSIZE || oV == BOARDSIZE || oD == BOARDSIZE)
+        return O
+    else if(numFilled == BOARDSIZE * BOARDSIZE)
+        return Blank;
+    else
+        return Invalid;
 }
+
+
+
+
+
+
+
