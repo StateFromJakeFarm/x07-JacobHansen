@@ -43,8 +43,6 @@ Piece TicTacToeBoard::placePiece(int row, int column)
         if(board[row][column] == Blank) {
             board[row][column] = turn;
 
-            Piece win = getWinner();
-
             return turn;
         } else {
             return board[row][column];
