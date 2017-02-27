@@ -3,7 +3,6 @@
 # sample Makefile provided in the official GoogleTest GitHub Repo v1.7
 
 # Flags passed to the preprocessor and compiler
-GTEST_DIR = /usr
 CPPFLAGS += --coverage -isystem $(GTEST_DIR)/include
 CXXFLAGS += -g -Wall -Wextra -pthread
 
@@ -22,15 +21,15 @@ clean :
 	rm -f $(TESTS) gtest.a gtest_main.a *.o *.gcov *.gcda *.gcno *.gch
 
 # Builds gtest.a and gtest_main.a.
-GTEST_SRCS_ = $(GTEST_DIR)/src/gtest/src/*.cc $(GTEST_DIR)/src/gtest/src/*.h $(GTEST_HEADERS)
+GTEST_SRCS_ = $(GTEST_DIR)/src/*.cc $(GTEST_DIR)/src/*.h $(GTEST_HEADERS)
 
 gtest-all.o : $(GTEST_SRCS_)
-	$(CXX) $(CPPFLAGS) -I $(GTEST_DIR) $(CXXFLAGS) -c \
-            $(GTEST_DIR)/src/gtest/src/gtest-all.cc
+	$(CXX) $(CPPFLAGS) -I$(GTEST_DIR) $(CXXFLAGS) -c \
+            $(GTEST_DIR)/src/gtest-all.cc
 
 gtest_main.o : $(GTEST_SRCS_)
-	$(CXX) $(CPPFLAGS) -I $(GTEST_DIR) $(CXXFLAGS) -c \
-            $(GTEST_DIR)/src/gtest/src/gtest_main.cc
+	$(CXX) $(CPPFLAGS) -I$(GTEST_DIR) $(CXXFLAGS) -c \
+            $(GTEST_DIR)/src/gtest_main.cc
 
 gtest.a : gtest-all.o
 	$(AR) $(ARFLAGS) $@ $^
