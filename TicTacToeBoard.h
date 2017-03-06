@@ -18,7 +18,7 @@ enum Piece
 class TicTacToeBoard {
   private:
   	Piece board[BOARDSIZE][BOARDSIZE];
-  	Piece turn;
+    Piece turn;
 
   	//Switches turn member variable to represent whether it's X's or O's turn
   	void toggleTurn();

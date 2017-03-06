@@ -1,4 +1,6 @@
 #include "TicTacToeBoard.h"
+#include <iostream>
+using namespace std;
 /**
  * Class for representing a 3x3 Tic-Tac-Toe game board, using the Piece enum
  * to represent the spaces on the board.
@@ -39,17 +41,23 @@ void TicTacToeBoard::clearBoard()
 **/ 
 Piece TicTacToeBoard::placePiece(int row, int column)
 {
+    Piece toReturn;
     if(row >= 0 && column >= 0 && row < BOARDSIZE && column < BOARDSIZE) {
         if(board[row][column] == Blank) {
             board[row][column] = turn;
 
-            return turn;
+            toReturn = turn;
         } else {
-            return board[row][column];
+            toReturn = board[row][column];
         }
+    } else {
+        toReturn = Invalid;
     }
 
-    return Invalid;
+
+    toggleTurn();
+
+    return toReturn;
 }
 
 /**
@@ -72,16 +80,17 @@ Piece TicTacToeBoard::getPiece(int row, int column)
 Piece TicTacToeBoard::getWinner()
 {
     int xH = 0;
-    int oH = 0;
     int xV = 0;
-    int oV = 0;
     int xD = 0;
+
+    int oH = 0;
+    int oV = 0;
     int oD = 0;
 
     int numFilled = 0;
 
-    for(int r=0; r<BOARDSIZE; r++) {
-        for(int c=0; c<BOARDSIZE; c++) {
+    for(int r=0; r<=BOARDSIZE; r++) {
+        for(int c=0; c<=BOARDSIZE; c++) {
             Piece cur  = getPiece(r, c);
             Piece up   = getPiece(r-1, c);
             Piece back = getPiece(r, c-1);
@@ -112,9 +121,9 @@ Piece TicTacToeBoard::getWinner()
         }
     }
 
-    if(xH == BOARDSIZE || xV == BOARDSIZE || xD == BOARDSIZE)
+    if(xH == BOARDSIZE-1 || xV == BOARDSIZE-1 || xD == BOARDSIZE-1)
         return X;
-    else if(oH == BOARDSIZE || oV == BOARDSIZE || oD == BOARDSIZE)
+    else if(oH == BOARDSIZE-1 || oV == BOARDSIZE-1 || oD == BOARDSIZE-1)
         return O;
     else if(numFilled == BOARDSIZE * BOARDSIZE)
         return Blank;

@@ -20,9 +20,10 @@ TEST(TicTacToeBoardTest, sanityCheck)
 	ASSERT_TRUE(true);
 }
 
-TEST_F(TicTacToeBoardTest, canBuild) {
+TEST(TicTacToeBoardTest, initBoard) {
     TicTacToeBoard myBoard;
 
+    // ensure all locations initialized to zero
     for(int r=0; r<3; r++) {
         for(int c=0; c<3; c++) {
             EXPECT_EQ(' ', myBoard.getPiece(r, c));
@@ -30,46 +31,59 @@ TEST_F(TicTacToeBoardTest, canBuild) {
     }
 }
 
-TEST_F(TicTacToeBoardTest, placePieces) {
+TEST(TicTacToeBoardTest, placePieces) {
     TicTacToeBoard myBoard;
 
-    EXPECT_EQ('X', myBoard.placePiece(0, 0));
-    EXPECT_EQ('X', myBoard.placePiece(0, 0));
-    EXPECT_EQ('?', myBoard.placePiece(3, 2));
+    // basic piece placement
+    EXPECT_EQ('X', char(myBoard.placePiece(0, 0)));
+    EXPECT_EQ('O', char(myBoard.placePiece(1, 0)));
+
+    // place piece in nonempty location
+    EXPECT_EQ('O', char(myBoard.placePiece(1, 0)));
+    EXPECT_EQ('X', char(myBoard.placePiece(0, 0)));
+
+    // out of bounds
+    EXPECT_EQ('?', char(myBoard.placePiece(3, 2)));
+    EXPECT_EQ('?', char(myBoard.placePiece(-3, 2)));
+    EXPECT_EQ('?', char(myBoard.placePiece(2, -1)));
+    EXPECT_EQ('?', char(myBoard.placePiece(-1, -1)));
 }
 
-TEST_F(TicTacToeBoardTest, toggleTurn) {
+TEST(TicTacToeBoardTest, toggleTurn) {
     TicTacToeBoard myBoard;
 
-    EXPECT_EQ('X', myBoard.placePiece(0, 0));
-    EXPECT_EQ('O', myBoard.placePiece(0, 1));
-    EXPECT_EQ('X', myBoard.placePiece(0, 2));
-    EXPECT_EQ('O', myBoard.placePiece(1, 0));
+    EXPECT_EQ('X', char(myBoard.placePiece(0, 0)));
+    EXPECT_EQ('O', char(myBoard.placePiece(0, 1)));
+    EXPECT_EQ('X', char(myBoard.placePiece(0, 2)));
+    EXPECT_EQ('O', char(myBoard.placePiece(1, 0)));
 }
 
-TEST_F(TicTacToeBoardTest, getPieces) {
+TEST(TicTacToeBoardTest, getPieces) {
     TicTacToeBoard myBoard;
 
+    // place pieces
     myBoard.placePiece(0, 0);
     myBoard.placePiece(1, 0);
 
+    // check piece values are consistent with placement
     EXPECT_EQ('X', myBoard.getPiece(0, 0));
     EXPECT_EQ('O', myBoard.getPiece(1, 0));
 }
 
-TEST_F(TicTacToeBoardTest, getWinnerHoriz) {
+TEST(TicTacToeBoardTest, getWinnerHoriz) {
     TicTacToeBoard myBoard;
 
+    // set up a horizontal win scenario
     myBoard.placePiece(0, 0);
-    myBoard.placePiece(1, 0);
+    myBoard.placePiece(1, 0); // ignore O
     myBoard.placePiece(0, 1);
-    myBoard.placePiece(1, 1);
+    myBoard.placePiece(1, 1); // ignore O
     myBoard.placePiece(0, 2);
 
-    EXPECT_EQ('X', myBoard.getWinner());
+    EXPECT_EQ('X', char(myBoard.getWinner()));
 }
 
-TEST_F(TicTacToeBoardTest, getWinnerDiag) {
+TEST(TicTacToeBoardTest, getWinnerDiag) {
     TicTacToeBoard myBoard;
 
     myBoard.placePiece(0, 0);
@@ -78,10 +92,10 @@ TEST_F(TicTacToeBoardTest, getWinnerDiag) {
     myBoard.placePiece(1, 2);
     myBoard.placePiece(2, 2);
 
-    EXPECT_EQ('X', myBoard.getWinner());
+    EXPECT_EQ('X', char(myBoard.getWinner()));
 }
 
-TEST_F(TicTacToeBoardTest, getWinnerVert) {
+TEST(TicTacToeBoardTest, getWinnerVert) {
     TicTacToeBoard myBoard;
 
     myBoard.placePiece(0, 0);
@@ -90,5 +104,5 @@ TEST_F(TicTacToeBoardTest, getWinnerVert) {
     myBoard.placePiece(2, 1);
     myBoard.placePiece(2, 0);
 
-    EXPECT_EQ('X', myBoard.getWinner());
+    EXPECT_EQ('X', char(myBoard.getWinner()));
 }
