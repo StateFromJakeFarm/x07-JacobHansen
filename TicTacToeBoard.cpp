@@ -1,4 +1,6 @@
 #include "TicTacToeBoard.h"
+#include <iostream>
+using namespace std;
 /**
  * Class for representing a 3x3 Tic-Tac-Toe game board, using the Piece enum
  * to represent the spaces on the board.
@@ -77,22 +79,25 @@ Piece TicTacToeBoard::getPiece(int row, int column)
 **/
 Piece TicTacToeBoard::getWinner()
 {
-    int xH = 0;
-    int xV = 0;
-    int xD = 0;
+    int xH  = 0;
+    int xV  = 0;
+    int xDN = 0;
+    int xDP = 0;
 
-    int oH = 0;
-    int oV = 0;
-    int oD = 0;
+    int oH  = 0;
+    int oV  = 0;
+    int oDN = 0;
+    int oDP = 0;
 
     int numFilled = 0;
 
     for(int r=0; r<BOARDSIZE; r++) {
         for(int c=0; c<BOARDSIZE; c++) {
-            Piece cur  = getPiece(r, c);
-            Piece up   = getPiece(r-1, c);
-            Piece back = getPiece(r, c-1);
-            Piece diag = getPiece(r-1, c-1);
+            Piece cur     = getPiece(r, c);
+            Piece up      = getPiece(r-1, c);
+            Piece back    = getPiece(r, c-1);
+            Piece diagNeg = getPiece(r-1, c-1);
+            Piece diagPos = getPiece(r-1, c+1);
 
             if(cur != Blank && cur != Invalid) {
                 ++numFilled;
@@ -109,22 +114,41 @@ Piece TicTacToeBoard::getWinner()
                     else
                         ++oV;
                 }
-                if(diag == cur) {
+                if(diagNeg == cur) {
                     if(cur == X)
-                        ++xD;
+                        ++xDN;
                     else
-                        ++oD;
+                        ++oDN;
+                }
+                if(diagPos == cur) {
+                    if(cur == X)
+                        ++xDP;
+                    else
+                        ++oDP;
                 }
             }
         }
     }
 
-    if(xH == BOARDSIZE-1 || xV == BOARDSIZE-1 || xD == BOARDSIZE-1)
+    if(xH == BOARDSIZE-1 || xV == BOARDSIZE-1 || xDN == BOARDSIZE-1 || xDP == BOARDSIZE-1)
         return X;
-    else if(oH == BOARDSIZE-1 || oV == BOARDSIZE-1 || oD == BOARDSIZE-1)
+    else if(oH == BOARDSIZE-1 || oV == BOARDSIZE-1 || oDN == BOARDSIZE-1 || oDP == BOARDSIZE-1)
         return O;
     else if(numFilled == BOARDSIZE * BOARDSIZE)
         return Blank;
     else
         return Invalid;
+}
+
+void TicTacToeBoard::print() {
+    for(int r=0; r<BOARDSIZE; r++) {
+        for(int c=0; c<BOARDSIZE; c++) {
+            char ch = getPiece(r, c);
+            if(ch == ' ')
+                ch = '~';
+
+            cout << ch << " ";
+        }
+        cout << endl;
+    }
 }

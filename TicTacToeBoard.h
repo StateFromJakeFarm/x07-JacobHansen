@@ -24,6 +24,7 @@ class TicTacToeBoard {
   	void toggleTurn();
 
   public:
+    void print();
   	//Constructor sets an empty board and specifies it is X's turn first
   	TicTacToeBoard();
 
