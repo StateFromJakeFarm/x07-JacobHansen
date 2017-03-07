@@ -70,10 +70,9 @@ TEST(TicTacToeBoardTest, getPieces) {
     EXPECT_EQ('O', myBoard.getPiece(1, 0));
 }
 
-TEST(TicTacToeBoardTest, getWinnerHoriz) {
+TEST(TicTacToeBoardTest, winnerHoriz) {
     TicTacToeBoard myBoard;
 
-    // set up a horizontal win scenario
     myBoard.placePiece(0, 0);
     myBoard.placePiece(1, 0); // ignore O
     myBoard.placePiece(0, 1);
@@ -83,26 +82,52 @@ TEST(TicTacToeBoardTest, getWinnerHoriz) {
     EXPECT_EQ('X', char(myBoard.getWinner()));
 }
 
-TEST(TicTacToeBoardTest, getWinnerDiag) {
+TEST(TicTacToeBoardTest, winnerDiag) {
     TicTacToeBoard myBoard;
 
     myBoard.placePiece(0, 0);
-    myBoard.placePiece(1, 0);
+    myBoard.placePiece(1, 0); // ignore O
     myBoard.placePiece(1, 1);
-    myBoard.placePiece(1, 2);
+    myBoard.placePiece(1, 2); // ignore O
     myBoard.placePiece(2, 2);
 
     EXPECT_EQ('X', char(myBoard.getWinner()));
 }
 
-TEST(TicTacToeBoardTest, getWinnerVert) {
+TEST(TicTacToeBoardTest, winnerVert) {
     TicTacToeBoard myBoard;
 
     myBoard.placePiece(0, 0);
-    myBoard.placePiece(1, 1);
+    myBoard.placePiece(1, 1); // ignore O
     myBoard.placePiece(1, 0);
-    myBoard.placePiece(2, 1);
+    myBoard.placePiece(2, 1); // ignore O
     myBoard.placePiece(2, 0);
 
     EXPECT_EQ('X', char(myBoard.getWinner()));
+}
+
+TEST(TicTacToeBoardTest, noWin) {
+    TicTacToeBoard myBoard;
+
+    myBoard.placePiece(1, 0);
+    myBoard.placePiece(1, 1);
+    myBoard.placePiece(1, 2);
+
+    EXPECT_EQ('?', char(myBoard.getWinner()));
+}
+
+TEST(TicTacToeBoardTest, catsGame) {
+    TicTacToeBoard myBoard;
+
+    myBoard.placePiece(0, 0);
+    myBoard.placePiece(0, 2);
+    myBoard.placePiece(0, 1);
+    myBoard.placePiece(1, 0);
+    myBoard.placePiece(1, 2);
+    myBoard.placePiece(1, 1);
+    myBoard.placePiece(2, 0);
+    myBoard.placePiece(2, 1);
+    myBoard.placePiece(2, 2);
+
+    EXPECT_EQ(' ', char(myBoard.getWinner()));
 }

@@ -1,6 +1,4 @@
 #include "TicTacToeBoard.h"
-#include <iostream>
-using namespace std;
 /**
  * Class for representing a 3x3 Tic-Tac-Toe game board, using the Piece enum
  * to represent the spaces on the board.
@@ -89,14 +87,14 @@ Piece TicTacToeBoard::getWinner()
 
     int numFilled = 0;
 
-    for(int r=0; r<=BOARDSIZE; r++) {
-        for(int c=0; c<=BOARDSIZE; c++) {
+    for(int r=0; r<BOARDSIZE; r++) {
+        for(int c=0; c<BOARDSIZE; c++) {
             Piece cur  = getPiece(r, c);
             Piece up   = getPiece(r-1, c);
             Piece back = getPiece(r, c-1);
             Piece diag = getPiece(r-1, c-1);
 
-            if(cur != Blank) {
+            if(cur != Blank && cur != Invalid) {
                 ++numFilled;
 
                 if(back == cur) {
